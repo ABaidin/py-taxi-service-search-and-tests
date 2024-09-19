@@ -1,10 +1,8 @@
-from symtable import Class
-
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from taxi.models import Car, Driver, Manufacturer
+from taxi.models import Car, Manufacturer
 
 
 class TestHomePage(TestCase):
@@ -122,6 +120,7 @@ class TestCarDetail(BaseCarTest):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "taxi/car_detail.html")
 
+
 class TestCarCreate(BaseCarTest):
     def test_car_create_template(self):
         response = self.client.get(reverse("taxi:car-create"))
@@ -139,6 +138,7 @@ class TestCarCreate(BaseCarTest):
         self.assertEqual(new_car.model, data["model"])
         self.assertEqual(new_car.manufacturer, self.manufacturer)
         self.assertIn(self.driver, new_car.drivers.all())
+
 
 class TestCarUpdate(BaseCarTest):
     def test_car_update_template(self):
@@ -176,6 +176,7 @@ class TestCarUpdate(BaseCarTest):
         self.assertEqual(updated_car.manufacturer, new_manufacturer)
         self.assertIn(new_driver, updated_car.drivers.all())
 
+
 class TestCarDelete(BaseCarTest):
     def test_car_delete_template(self):
         response = self.client.get(
@@ -190,6 +191,7 @@ class TestCarDelete(BaseCarTest):
         self.assertEqual(len(cars), 0)
 
     # I'm tired, boss
+
 
 class TestManufacturerViewsLoginRequired(TestCase):
     def setUp(self):
@@ -218,6 +220,7 @@ class TestManufacturerViewsLoginRequired(TestCase):
         )
         self.assertNotEqual(response.status_code, 200)
 
+
 class BaseManufacturerTest(TestCase):
     def setUp(self):
         self.manufacturer = Manufacturer.objects.create(
@@ -228,6 +231,7 @@ class BaseManufacturerTest(TestCase):
             username="TestDriver3", password="TestPassword3"
         )
         self.client.force_login(self.driver)
+
 
 class TestManufacturerList(BaseManufacturerTest):
     manufacturer_list_url = reverse("taxi:manufacturer-list")

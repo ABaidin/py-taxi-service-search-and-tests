@@ -53,7 +53,6 @@ class TestDriverForms(TestCase):
             self.assertEqual(form.errors["license_number"], [error])
 
 
-
 class TestManufacturerForms(TestCase):
     def test_manufacturer_search_form_placeholder(self):
         form = ManufacturerSearchForm()
